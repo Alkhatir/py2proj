@@ -23,7 +23,7 @@ class Imgdataset(Dataset):
     def __getitem__(self, index):
         im_shape = 64
         resize_transforms = transforms.Compose([
-            transforms.Resize(size=im_shape),
+            transforms.Resize(size=im_shape, interpolation=Image.BILINEAR),
             transforms.CenterCrop(size=(im_shape, im_shape)),
         ])
         with Image.open(self.imgs[index]) as tmp:
@@ -37,7 +37,7 @@ class Imgdataset(Dataset):
 
 if __name__ == "__main__":
     dataset = Imgdataset(
-        "C:\\Users\\Bashar Hanna\\Desktop\\py2proj\\training\\000")
+        r"C:\Users\peerh\OneDrive\Desktop\py2proj\training\000")
     for pixelated_image, known_array, target_array,target_array_with_padding in dataset:
         torch.set_printoptions(profile="full")
         #print((~known_array)*1)
@@ -46,7 +46,7 @@ if __name__ == "__main__":
         axes[0].set_title("pixelated_image")
         axes[1].imshow(known_array[0].numpy(), cmap="gray", vmin=0, vmax=1)
         axes[1].set_title("known_array")
-        axes[2].imshow(target_array_with_padding[0].numpy(), cmap="gray", vmin=0, vmax=255)
+        axes[2].imshow(target_array[0].numpy(), cmap="gray", vmin=0, vmax=255)
         axes[2].set_title("target_array")
         fig.suptitle("000")
         fig.tight_layout()
